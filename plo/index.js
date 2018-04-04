@@ -16,8 +16,14 @@ module.exports = async (robot) => {
   const channel = channels.find(c => c.is_member);
 
   //rtm.sendMessage('Hello, world!', channel.id)
+  robot.on('pull_request_review.submitted', async(context) => {
+    const { review } = context.payload;
+    const { pull_request } = context.payload;
 
-  robot.on
+    if (review.state === 'changes_requested') {
+      rtm.sendMessage(`${pull_request.user.login}, ${review.user.login} dice que :middle_finger: "${review.body}" \n${review.html_url} `, channel.id)
+    }
+  });
 
 
   // For more information on building apps:
